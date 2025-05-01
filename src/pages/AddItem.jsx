@@ -122,12 +122,23 @@ export default function AddItem() {
           <button
             className="p-3 bg-gray-800 rounded-md"
             onClick={async () => {
+              if (
+                !inputImage ||
+                getId.length < 1 ||
+                getName.length < 1 ||
+                getPrice.length < 1 ||
+                getStock.length < 1
+              ) {
+                toast.error("Fill in ze blanks please");
+                return;
+              }
+
               const formData = new FormData();
               formData.append("store_id", getId);
               formData.append("image", getImage);
               formData.append("name", getName);
               formData.append("price", parseInt(getPrice));
-              formData.append("stock", getStock);
+              formData.append("stock", parseInt(getStock));
 
               await axios
                 .post(`https://be-unv-nahl.vercel.app/item/create`, formData)

@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import { ToastContainer, toast } from "react-toastify";
+
 import Navbar from "./Navbar";
 
 import axios from "axios";
@@ -31,6 +33,7 @@ export default function Register() {
     <div
       className={`h-screen w-screen font-jetbrains flex flex-col items-center text-white ${theme}`}
     >
+      <ToastContainer position="bottom-center" autoClose={1000} />
       <Navbar />
       <div className="w-1/4 h-4/6 bg-blue-600 rounded-xl flex flex-col items-center my-auto">
         <div className="m-20">
@@ -64,8 +67,12 @@ export default function Register() {
           <button
             className="p-3 bg-gray-800 rounded-md"
             onClick={async () => {
-              if (getEmail.length == 0 || getPassword.length < 8) {
-                alert("Fill in the blanks please!");
+              if (
+                getName.length < 1 ||
+                getEmail.length < 1 ||
+                getPassword.length < 1
+              ) {
+                toast.error("Fill in the blanks please!");
                 return;
               }
 
@@ -76,7 +83,13 @@ export default function Register() {
                 .then((e) => {
                   console.log(e.data);
                   if (e.data.success) {
-                    navigate("/home");
+                    toast.success("Register success!", {
+                      onClose: () => {
+                        navigate("/home");
+                      },
+                    });
+                  } else {
+                    toast.error(e.data.message);
                   }
                 })
                 .catch((e) => {

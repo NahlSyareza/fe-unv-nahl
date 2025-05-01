@@ -57,7 +57,7 @@ export default function AddStore() {
             className="p-3 bg-gray-800 rounded-md"
             onClick={async () => {
               if (getName.length < 1 || getAddress.length < 1) {
-                alert("Fill in the blanks please!");
+                toast.error("Fill in ze blanks please");
                 return;
               }
 
